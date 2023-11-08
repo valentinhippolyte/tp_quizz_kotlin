@@ -1,9 +1,8 @@
-package composables
+package screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -20,16 +19,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dataClass.Quiz
+
+fun Text(text: Int) {
+
+}
+
 @Composable
-fun QuestionComposable(
-    questions: Array<String>,
-    options: Array<String>,
-    selectedOption: Int,
-    questionIndex: Int
+fun QuestionScreen(
+    quiz: Quiz,
 ) {
-    var questionProgress by remember { mutableStateOf(0) }
+    var questionIndex by remember { mutableStateOf(0) }
     var selectedAnswer by remember { mutableStateOf(1) }
     var score by remember { mutableStateOf(0) }
+
 
     Card(
         modifier = Modifier
@@ -41,29 +44,37 @@ fun QuestionComposable(
                 .padding(16.dp)
         ) {
             Text(
-                text = questions[questionProgress],
+                text = quiz.questions[questionIndex].label,
                 style = MaterialTheme.typography.h4,
                 modifier = Modifier.padding(8.dp)
             )
 
-            options.forEachIndexed { index, option ->
+            quiz.questions[questionIndex].answers.forEachIndexed { index, answer ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp)
-                        .clickable {}
+                        .clickable {selectedAnswer = answer.id}
                 ) {
                     RadioButton(
-                        selected = selectedOption == index,
-                        onClick = { selectedOption}
+                        selected = selectedAnswer == answer.id,
+                        onClick = { selectedAnswer = answer.id}
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = option, style = MaterialTheme.typography.body1)
+
+                    Text(text = answer.label,
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.width(8.dp),
+                    )
                 }
             }
 
             Button(
-                onClick = {},
+                onClick = {
+                    if (selectedAnswer == quiz.questions[questionIndex].correctId) {
+                        score++
+                    }
+                    questionIndex += 1
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -71,11 +82,16 @@ fun QuestionComposable(
                 Text(text = "Valider")
             }
             LinearProgressIndicator(
-                progress = (questionIndex.toFloat() / questions.size.toFloat()),
+                progress = (questionIndex.toFloat() / quiz.questions.size.toFloat()),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
             )
+            Row {
+                Text(
+                    text = "score : " + score.toString()
+                )
+            }
         }
     }
 
