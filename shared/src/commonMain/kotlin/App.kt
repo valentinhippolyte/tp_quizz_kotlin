@@ -5,6 +5,7 @@ import dataClass.Question
 import dataClass.Quiz
 import screens.QuestionScreen
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import screens.ScoreScreen
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -50,11 +51,11 @@ fun App() {
        )
         QuestionScreen(quiz)
         /*ScoreScreen(
-            score = 8,
-            totalScore = 10,
+            score = 0,/*A definir !*/
+            totalScore = quiz.questions.size,
             onRetakeClick = {}
         )*/
-    }
+}
 }
 
 expect fun getPlatformName(): String
