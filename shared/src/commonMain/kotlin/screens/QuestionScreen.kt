@@ -4,12 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -87,7 +83,7 @@ fun QuestionScreen(
 
         Button(
             onClick = {
-                if (selectedAnswer == quiz.questions[questionIndex].correctId) {
+                if (selectedAnswer == quiz.questions[questionIndex].correctAnswerId) {
                     score++
                 }
                 questionIndex += 1

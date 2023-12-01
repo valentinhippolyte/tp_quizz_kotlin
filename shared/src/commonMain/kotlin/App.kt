@@ -1,18 +1,18 @@
+
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import dataClass.Answer
-import dataClass.Question
+import androidx.compose.runtime.collectAsState
 import dataClass.Quiz
-import screens.QuestionScreen
+import network.QuizRepository
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import screens.ScoreScreen
-
+import screens.QuestionScreen
+private val repository = QuizRepository()
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
     MaterialTheme {
        // use data classes :
-       val quiz = Quiz(
+       /*val quiz = Quiz(
            listOf(
                Question(
                    0,
@@ -48,8 +48,13 @@ fun App() {
                    )
                )
            )
-       )
-        QuestionScreen(quiz)
+       )*/
+        val questions = repository.questionState.collectAsState()
+
+        if(questions.value.isNotEmpty()) {
+            val quiz = Quiz(questions.value)
+            QuestionScreen(quiz)
+        }
         /*ScoreScreen(
             score = 0,/*A definir !*/
             totalScore = quiz.questions.size,

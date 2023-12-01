@@ -1,6 +1,4 @@
 package dataClass
 
-data class Answer(
-    val id: Int,
-    val label: String,
-)
+@kotlinx.serialization.Serializable
+data class Answer(val id: Int, val label: String )
